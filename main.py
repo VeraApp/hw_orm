@@ -34,8 +34,11 @@ publisher_name = input('Введите имя автора:')
 subq = session.query(Book.title, Shop.name, Sale.price, Sale.date_sale).select_from(Book).\
     join(Publisher, Book.id_publisher == Publisher.id).\
     join(Stock, Book.id == Stock.id_book).\
-    join(Shop, Stock.id_shop == Shop.id).join(Sale, Stock.id == Sale.id_stock).\
-    filter(Publisher.name.like(f'%{publisher_name}%')).all()
+    join(Shop, Stock.id_shop == Shop.id).join(Sale, Stock.id == Sale.id_stock)
+if publisher_name.isdigit():
+    subq = subq.filter(Publisher.id == int(publisher_name)).all()
+else:
+    subq=subq.filter(Publisher.name.like(f'%{publisher_name}%')).all()
 
 for res in subq:
     print('|', res[0].center(25), '|', res[1].center(10), '|', str(res[2]).center(5), '|', str(res[3].date()).center(10))
