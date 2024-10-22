@@ -29,7 +29,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 load_test_data("test_data.json", session)
-publisher_name = input('Введите имя автора:')
+publisher_name = input('Введите имя автора или его id :')
 
 subq = session.query(Book.title, Shop.name, Sale.price, Sale.date_sale).select_from(Book).\
     join(Publisher, Book.id_publisher == Publisher.id).\
